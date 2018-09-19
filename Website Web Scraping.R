@@ -31,15 +31,10 @@ baseball$Current <- name_storage
 # at the end, be sure to print out the dimensions of your baseball table.
 dim(baseball)
 head(baseball)
-```
 
-__Some light text clean up__
 
-Unfortunately the baseball-reference site makes use the of the non-breaking space character and uses it in places like the space in "Atlanta Braves."
+## Unfortunately the baseball-reference site makes use the of the non-breaking space character and uses it in places like the space in "Atlanta Braves."
 
-I've written some commands for you that will replace all instances of the non-breaking space and replace it with a standard space character in the baseball table. I've done this part for you.
-
-```{r baseball_cleanup, error = TRUE}
 library(stringr)
 # This code checks to see if text in table has regular space character
 # Because the text from the web uses a non-breaking space, we expect there to be a mismatch
@@ -70,21 +65,16 @@ Once you have created your table, use the data it contains to calculate some sum
 
 For each franchise, filter the dataset to only include data from the years 2001 to 2016 (inclusive). If the franchise changed team names during this period, include the previous team's data as well. (e.g. the data for the Washington Nationals will also include data for the 2001-2004 Montreal Expos)
 
-Then calculate the following summary statistics for each team across the 16 seasons:
+## Then calculate the following summary statistics for each team across the 16 seasons:
 
-+ _for the years 2001-2016_
-+ _total wins_
-+ _total losses_
-+ _total runs scored_
-+ _total runs allowed_
-+ _total win percentage (wins / (wins + losses))_
+## _for the years 2001-2016_
+## _total wins_
+## _total losses_
+## _total runs scored_
+## _total runs allowed_
+## _total win percentage (wins / (wins + losses))_
 
-Sort the resulting table (should have a total of 30 rows) by total win percentage. To make sure all 30 rows print, you may need to use `print.data.frame()`, rather than the normal `print()`, which will use the method for tbl.
-
-_Hint:_ At the top of my table, I had the NY Yankees, with a total win percentage of 0.5813
-
-```{r exc5}
-
+## Sort the resulting table (should have a total of 30 rows) by total win percentage. To make sure all 30 rows print, you may need to use `print.data.frame()`, rather than the normal `print()`, which will use the method for tbl.
 
 summary_table <- baseball %>% filter(Year %in% c(2001:2016)) %>% group_by(Team = Current) %>%
   summarise(Win = sum(W), Loss = sum(L), Run_Scored = sum(R), Run_Allowed = sum(RA),
@@ -96,34 +86,28 @@ print.data.frame(summary_table)
 # Your final line of code here should print the summary table in the report
 # You may need to use print.data.frame() to make sure the entire table shows.
 # All requested columns must appear in the html to receive full credit.
-```
 
 ## 6. __Regular expressions to extract values in the Managers Column__
 
-Using regular expressions, extract the wins and losses for the managers listed in the managers column. Do not use each season's number of wins or losses. You must extract the information from the managers column using regular expressions. That column has the information written in the form "F.LastName (82-80)". You will need to use capture groups in your regular expression to separate the different pieces of information.
+## Using regular expressions, extract the wins and losses for the managers listed in the managers column. Do not use each season's number of wins or losses. You must extract the information from the managers column using regular expressions. That column has the information written in the form "F.LastName (82-80)". You will need to use capture groups in your regular expression to separate the different pieces of information.
+## Be careful as some of the rows contain information for more than one manager. Combine all of the manager information to get a total wins and loss value for each of the managers. Many managers have managed more than one team. Be sure to combine all of the win-loss information for the same manager. You may assume that entries that share the same first initial and last name are the same person.
+## Create a summary table with one line for each manager. The table should contain the following columns, and should be sorted descending by total number of games.
 
-Be careful as some of the rows contain information for more than one manager. Combine all of the manager information to get a total wins and loss value for each of the managers. Many managers have managed more than one team. Be sure to combine all of the win-loss information for the same manager. You may assume that entries that share the same first initial and last name are the same person.
+## _Manager's name (First initial and Last Name)_
+## _Total number of games managed_
+## _Total number of wins across career_
+## _Total number of losses across career_
+## _Total win percentage_
 
-Create a summary table with one line for each manager. The table should contain the following columns, and should be sorted descending by total number of games.
+## You can independently verify if your information is correct on baseball-reference.com. Each manager has his own page with a total count of wins and losses.
 
-+ _Manager's name (First initial and Last Name)_
-+ _Total number of games managed_
-+ _Total number of wins across career_
-+ _Total number of losses across career_
-+ _Total win percentage_
+## Figuring out the regular expression here is probably the trickiest part. There is also an instance where there are two different people with the same first initial and the same last name. Unfortunately, their information will end up being combined. For this homework assignment, that's okay.
 
-You can independently verify if your information is correct on baseball-reference.com. Each manager has his own page with a total count of wins and losses.
+## Regarding the regular expression, you will need to use capture groups, and thus `str_match_all()`. We use the _all variant because some of the entries will have multiple managers.
 
-Figuring out the regular expression here is probably the trickiest part. There is also an instance where there are two different people with the same first initial and the same last name. Unfortunately, their information will end up being combined. For this homework assignment, that's okay.
+## The first line of my table reads: C.Mack, 7679, 3731, 3948, 0.4858706, for manager, games, wins, losses, win percentage.
 
-Regarding the regular expression, you will need to use capture groups, and thus `str_match_all()`. We use the _all variant because some of the entries will have multiple managers.
-
-The first line of my table reads: C.Mack, 7679, 3731, 3948, 0.4858706, for manager, games, wins, losses, win percentage.
-
-Watch out for T.La Russa who has a space in his name. He managed the second most number of games with a final record of 2728-2365.
-
-```{r exc6}
-# enter your r code here
+## Watch out for T.La Russa who has a space in his name. He managed the second most number of games with a final record of 2728-2365.
 
 total_win <- rep(0, 3099)
 total_loss <- rep(0, 3099)
@@ -153,4 +137,3 @@ head(summary, 10)
 # your final line of code here should print the first 10 rows of 
 # the summary table in the report
 # All requested columns must appear in the html to receive full credit.
-```
