@@ -57,7 +57,6 @@ for(i in char_cols){
 ## should now be TRUE
 all.equal(charToRaw(baseball$Tm[1]), charToRaw("Arizona Diamondbacks"))
 
-```
 
 ## 5. __Using dplyr to summarize data__
 
